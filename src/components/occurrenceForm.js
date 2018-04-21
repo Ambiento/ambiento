@@ -21,7 +21,9 @@ class OccurrenceForm extends Component {
             }
         };
     }
-
+    handleInputChange(name, value){
+        this.setState({[name]: value});
+    }
     render() {
         return (
             <Card className={'card'}>
@@ -30,12 +32,35 @@ class OccurrenceForm extends Component {
                     subtitle='Cargo (role)'
                     avatar='images/jsa-128.jpg'
                 />
-                <TextField floatingLabelFixed={true} name={'nome_usuario'} floatingLabelText='Nome'/><br/>
-                <TextField floatingLabelFixed={true} name={'email'} floatingLabelText='E-mail'/><br/>
-                <TextField floatingLabelFixed={true} name={'cidade'} floatingLabelText='Cidade'/><br/>
-                <TextField floatingLabelFixed={true} name={'estado'} floatingLabelText='Estado'/><br/>
-                <TextField floatingLabelFixed={true} name={'referencia_localizacao'} floatingLabelText='Referência de localização'/><br/>
                 <TextField
+                    onChange={(event) => {
+                        this.handleInputChange('nome_usuario', event.target.value)
+                    }}
+                    floatingLabelFixed={true} name={'nome_usuario'} floatingLabelText='Nome'/><br/>
+                <TextField
+                    onChange={(event) => {
+                        this.handleInputChange('email', event.target.value)
+                    }}
+                    floatingLabelFixed={true} name={'email'} floatingLabelText='E-mail'/><br/>
+                <TextField
+                    onChange={(event) => {
+                        this.handleInputChange('cidade', event.target.value)
+                    }}
+                    floatingLabelFixed={true} name={'cidade'} floatingLabelText='Cidade'/><br/>
+                <TextField
+                    onChange={(event) => {
+                        this.handleInputChange('estado', event.target.value)
+                    }}
+                    floatingLabelFixed={true} name={'estado'} floatingLabelText='Estado'/><br/>
+                <TextField
+                    onChange={(event) => {
+                        this.handleInputChange('referencia_localizacao', event.target.value)
+                    }}
+                    floatingLabelFixed={true} name={'referencia_localizacao'} floatingLabelText='Referência de localização'/><br/>
+                <TextField
+                    onChange={(event) => {
+                        this.handleInputChange('descricao', event.target.value)
+                    }}
                     floatingLabelFixed={true}
                     name={'descricao'}
                     floatingLabelText='Descrição da ocorrência'

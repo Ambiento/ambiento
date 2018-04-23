@@ -2,12 +2,13 @@ import React, {Component} from 'react';
 import {Card, CardActions, CardHeader} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
+import {Style} from '../styles';
 
 class OccurrenceForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            id_ocorrencia: '',
+            idOcorrencia: '',
             email: '',
             nome_usuario: '',
             cidade: '',
@@ -26,7 +27,7 @@ class OccurrenceForm extends Component {
     }
     render() {
         return (
-            <Card className={'card'}>
+            <Card style={Style.card}>
                 <CardHeader
                     title='Nome'
                     subtitle='Cargo (role)'

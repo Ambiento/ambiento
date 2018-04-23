@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import AppBar from 'material-ui/AppBar';
+import {Link} from 'react-router-dom';
 
 class Main extends Component {
     constructor(props) {
@@ -9,10 +10,7 @@ class Main extends Component {
     render() {
         return (
             <div>
-                <AppBar title="Title" iconClassNameRight="muidocs-icon-navigation-expand-more" />
-                <div className={'main'}>
-                    {this.props.children}
-                </div>
+                <AppBar title={<Link to={'/'}>Title</Link>} iconClassNameRight="muidocs-icon-navigation-expand-more" />
             </div>
         );
     }

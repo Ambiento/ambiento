@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
+import {Link} from 'react-router-dom';
 import axios from 'axios';
 
 class OccurrenceList extends Component {
@@ -13,7 +14,7 @@ class OccurrenceList extends Component {
     componentDidMount(){
         axios.get('http://localhost:8080/api/ocorrencia').then((response) => {
             this.setState({occurrence: response.data});
-        })
+        });
     }
     renderOcurrence(ocurrence){
         return ocurrence.map(item => {
@@ -31,8 +32,7 @@ class OccurrenceList extends Component {
                     </CardMedia>
                     <CardText>{item.descricao}</CardText>
                     <CardActions>
-                        <FlatButton label="Enviar"/>
-                        <FlatButton label="Deletar"/>
+                        <Link to={`/occurrence/${item.idOcorrencia}`}><FlatButton label="Detalhes"/></Link>
                     </CardActions>
                 </Card>
             );

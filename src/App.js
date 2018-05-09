@@ -4,7 +4,6 @@ import './App.css';
 import Routes from "./routes/routes";
 import theme from './theme.js';
 
-
 class App extends Component {
     render() {
         return (

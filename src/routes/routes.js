@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {BrowserRouter as Router, Route, Link} from 'react-router-dom'
-import {OcurrencyList, OcurrencyForm, Login} from '../components';
+import {Signup, OcurrencyList, OcurrencyForm, Login} from '../components';
 import Main from "../components/main";
 import {Style} from '../styles';
 
@@ -18,12 +18,13 @@ class Routes extends Component {
                             <Main/>
                             <ul>
                                 <li><Link to={'/occurrence'}>List</Link></li>
-                                <li><Link to={'/occurrence/id'}>Form</Link></li>
+                                <li><Link to={'/occurrence/new'}>Form</Link></li>
                             </ul>
                         </div>
                     )}/>
                     <div style={Style.content}>
                         <Route exact path={'/'} component={Login}/>
+                        <Route exact path={'/signup'} component={Signup}/>
                         <Route exact path={'/occurrence/:id'} component={OcurrencyForm}/>
                         <Route exact path={'/occurrence'} component={OcurrencyList}/>
                     </div>

@@ -3,21 +3,21 @@ import {Card, CardActions, CardHeader} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import {Style} from '../styles';
-import axios from "axios/index";
+import axios from "axios";
 
 class OccurrenceForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
             occurrence: {
-                idOcorrencia: '',
+                id: '',
                 email: '',
-                nome_usuario: '',
-                cidade: '',
-                estado: '',
-                referencia_localizacao: '',
-                descricao: '',
-                idImg: '',
+                name: '',
+                city: '',
+                state: '',
+                reference: '',
+                description: '',
+                imgUrl: '',
                 localizacao: {
                     latitude: '',
                     longitude: ''
@@ -27,10 +27,12 @@ class OccurrenceForm extends Component {
     }
     componentDidMount(){
         // console.log(this.props.match.params.id);
-        const idOcorrencia = this.props.match.params.id;
-        if(idOcorrencia){
-            axios.get(`http://localhost:8080/api/ocorrencia/${idOcorrencia}`).then((response) => {
-                this.setState({occurrence: response.data});
+        const id = this.props.match.params.id;
+        if(id !== 'new'){
+            axios.get(`http://localhost:8080/api/occurrence/${id}`).then((response) => {
+                if(response.data) {
+                    this.setState({occurrence: response.data});
+                }
             })
         }
     }
@@ -49,10 +51,10 @@ class OccurrenceForm extends Component {
                 />
                 <TextField
                     onChange={(event) => {
-                        this.handleInputChange('nome_usuario', event.target.value)
+                        this.handleInputChange('name', event.target.value)
                     }}
-                    value={this.state.occurrence.nome_usuario}
-                    floatingLabelFixed={true} name={'nome_usuario'} floatingLabelText='Nome'/><br/>
+                    value={this.state.occurrence.name}
+                    floatingLabelFixed={true} name={'name'} floatingLabelText='Nome'/><br/>
                 <TextField
                     onChange={(event) => {
                         this.handleInputChange('email', event.target.value)
@@ -61,29 +63,29 @@ class OccurrenceForm extends Component {
                     floatingLabelFixed={true} name={'email'} floatingLabelText='E-mail'/><br/>
                 <TextField
                     onChange={(event) => {
-                        this.handleInputChange('cidade', event.target.value)
+                        this.handleInputChange('city', event.target.value)
                     }}
-                    value={this.state.occurrence.cidade}
-                    floatingLabelFixed={true} name={'cidade'} floatingLabelText='Cidade'/><br/>
+                    value={this.state.occurrence.city}
+                    floatingLabelFixed={true} name={'city'} floatingLabelText='city'/><br/>
                 <TextField
                     onChange={(event) => {
-                        this.handleInputChange('estado', event.target.value)
+                        this.handleInputChange('state', event.target.value)
                     }}
-                    value={this.state.occurrence.estado}
-                    floatingLabelFixed={true} name={'estado'} floatingLabelText='Estado'/><br/>
+                    value={this.state.occurrence.state}
+                    floatingLabelFixed={true} name={'state'} floatingLabelText='state'/><br/>
                 <TextField
                     onChange={(event) => {
-                        this.handleInputChange('referencia_localizacao', event.target.value)
+                        this.handleInputChange('reference', event.target.value)
                     }}
-                    value={this.state.occurrence.referencia_localizacao}
-                    floatingLabelFixed={true} name={'referencia_localizacao'} floatingLabelText='Referência de localização'/><br/>
+                    value={this.state.occurrence.reference}
+                    floatingLabelFixed={true} name={'reference'} floatingLabelText='Referência de localização'/><br/>
                 <TextField
                     onChange={(event) => {
-                        this.handleInputChange('descricao', event.target.value)
+                        this.handleInputChange('description', event.target.value)
                     }}
-                    value={this.state.occurrence.descricao}
+                    value={this.state.occurrence.description}
                     floatingLabelFixed={true}
-                    name={'descricao'}
+                    name={'description'}
                     floatingLabelText='Descrição da ocorrência'
                     multiLine={true}
                     rows={1}

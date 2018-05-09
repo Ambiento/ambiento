@@ -12,7 +12,8 @@ class OccurrenceList extends Component {
         };
     }
     componentDidMount(){
-        axios.get('http://localhost:8080/api/ocorrencia').then((response) => {
+        axios.get('http://localhost:8080/api/occurrence').then((response) => {
+            console.log(response.data);
             this.setState({occurrence: response.data});
         });
     }
@@ -21,18 +22,18 @@ class OccurrenceList extends Component {
             return(
                 <Card className={'card'}>
                     <CardHeader
-                        title={item.nome_usuario}
-                        subtitle={`${item.cidade} - ${item.estado}`}
-                        avatar="images/jsa-128.jpg"
+                        title={item.user}
+                        subtitle={`${item.city} - ${item.state}`}
+                        avatar={`https://identicon-api.herokuapp.com/${item.user}/100?format=png`}
                     />
                     <CardMedia>
                         <img
                             src="https://static.independent.co.uk/s3fs-public/styles/story_large/public/thumbnails/image/2013/01/24/12/v2-cute-cat-picture.jpg"
                             alt=""/>
                     </CardMedia>
-                    <CardText>{item.descricao}</CardText>
+                    <CardText>{item.description}</CardText>
                     <CardActions>
-                        <Link to={`/occurrence/${item.idOcorrencia}`}><FlatButton label="Detalhes"/></Link>
+                        <Link to={`/occurrence/${item.id}`}><FlatButton label="Detalhes"/></Link>
                     </CardActions>
                 </Card>
             );

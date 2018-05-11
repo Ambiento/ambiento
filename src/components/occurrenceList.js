@@ -8,17 +8,32 @@ class OccurrenceList extends Component {
     constructor(props){
         super(props);
         this.state = {
-            occurrence: []
+            occurrence: [],
+            localOccurrences: []
         };
     }
     componentDidMount(){
+        this.setState({
+            localOccurrences: JSON.parse(localStorage.getItem('occurrences'))
+        });
         axios.get('http://localhost:8080/api/occurrence').then((response) => {
-            console.log(response.data);
             this.setState({occurrence: response.data});
         });
     }
-    renderOcurrence(ocurrence){
-        return ocurrence.map(item => {
+    sendOccurrence(occurrence, index){
+        let localOccurrences = JSON.parse(localStorage.getItem('occurrences'));
+        delete localOccurrences.splice(index);
+        this.setState({localOccurrences});
+        localStorage.setItem('occurrences', (localOccurrences.length > 0) ? JSON.stringify(localOccurrences) : null);
+        axios.post('http://localhost:8080/api/occurrence', occurrence);
+    }
+    renderOcurrence(occurrence){
+        if(occurrence.length === 0){
+            return(
+                <p>Nenhuma ocorrencia...</p>
+            );
+        }
+        return occurrence.map((item, index) => {
             return(
                 <Card className={'card'}>
                     <CardHeader
@@ -33,15 +48,24 @@ class OccurrenceList extends Component {
                     </CardMedia>
                     <CardText>{item.description}</CardText>
                     <CardActions>
-                        <Link to={`/occurrence/${item.id}`}><FlatButton label="Detalhes"/></Link>
+                        {!item.id ? [
+                                <FlatButton onClick={() => this.sendOccurrence(item, index)} label='Enviar'/>,
+                                <FlatButton label='Editar'/>
+                            ]
+                            : null}
+                        <Link to={`/occurrence/${item.id}`}><FlatButton label='Detalhes'/></Link>
                     </CardActions>
                 </Card>
             );
         });
     }
     render() {
+        console.log(this.state.localOccurrences);
         return (
             <div>
+                <p>Ocorrencias não enviadas para o servidor</p>
+                {(this.state.localOccurrences) ? this.renderOcurrence(this.state.localOccurrences) : <p>Nenhuma ocorrência local</p>}
+                <p>Ocorrencias enviadas para o servidor</p>
                 {this.renderOcurrence(this.state.occurrence)}
             </div>
         );

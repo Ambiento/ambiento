@@ -11,30 +11,37 @@ class OccurrenceForm extends Component {
         this.state = {
             occurrence: {
                 id: '',
-                email: '',
-                name: '',
                 city: '',
                 state: '',
                 reference: '',
                 description: '',
                 imgUrl: '',
-                localizacao: {
-                    latitude: '',
-                    longitude: ''
-                }
+                latitude: '-21.7057',
+                longitude: '-43.4188'
             }
         };
+        this.saveOnLocalStorage = this.saveOnLocalStorage.bind(this);
     }
+    /*
+        TODO: Fazer a edição das ocorrencias que não foram enviadas, ou seja, ainda estão no localStorage:
+        TODO: o parametro /:id deve corresponder ao index da ocorrencia no localStorage
+     */
     componentDidMount(){
         // console.log(this.props.match.params.id);
         const id = this.props.match.params.id;
-        if(id !== 'new'){
-            axios.get(`http://localhost:8080/api/occurrence/${id}`).then((response) => {
-                if(response.data) {
-                    this.setState({occurrence: response.data});
-                }
-            })
-        }
+        // if(id !== 'new'){
+        //     axios.get(`http://localhost:8080/api/occurrence/${id}`).then((response) => {
+        //         if(response.data) {
+        //             this.setState({occurrence: response.data});
+        //         }
+        //     })
+        // }
+    }
+    saveOnLocalStorage(){
+        let occurrences = JSON.parse(localStorage.getItem('occurrences'));
+        const {occurrence} = this.state;
+        (occurrences) ? occurrences.push(occurrence) : occurrences = [occurrence];
+        localStorage.setItem('occurrences', JSON.stringify(occurrences));
     }
     handleInputChange(name, value){
         let {occurrence} = this.state;
@@ -51,28 +58,16 @@ class OccurrenceForm extends Component {
                 />
                 <TextField
                     onChange={(event) => {
-                        this.handleInputChange('name', event.target.value)
-                    }}
-                    value={this.state.occurrence.name}
-                    floatingLabelFixed={true} name={'name'} floatingLabelText='Nome'/><br/>
-                <TextField
-                    onChange={(event) => {
-                        this.handleInputChange('email', event.target.value)
-                    }}
-                    value={this.state.occurrence.email}
-                    floatingLabelFixed={true} name={'email'} floatingLabelText='E-mail'/><br/>
-                <TextField
-                    onChange={(event) => {
                         this.handleInputChange('city', event.target.value)
                     }}
                     value={this.state.occurrence.city}
-                    floatingLabelFixed={true} name={'city'} floatingLabelText='city'/><br/>
+                    floatingLabelFixed={true} name={'city'} floatingLabelText='Cidade'/><br/>
                 <TextField
                     onChange={(event) => {
                         this.handleInputChange('state', event.target.value)
                     }}
                     value={this.state.occurrence.state}
-                    floatingLabelFixed={true} name={'state'} floatingLabelText='state'/><br/>
+                    floatingLabelFixed={true} name={'state'} floatingLabelText='Estado'/><br/>
                 <TextField
                     onChange={(event) => {
                         this.handleInputChange('reference', event.target.value)
@@ -91,7 +86,7 @@ class OccurrenceForm extends Component {
                     rows={1}
                     rowsMax={4}/>
                 <CardActions>
-                    <FlatButton label='Salvar'/>
+                    <FlatButton onClick={this.saveOnLocalStorage} label='Salvar'/>
                     <FlatButton label='Cancelar'/>
                 </CardActions>
             </Card>

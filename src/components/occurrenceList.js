@@ -11,21 +11,28 @@ class OccurrenceList extends Component {
             occurrence: [],
             localOccurrences: []
         };
+        this.getOccurrences = this.getOccurrences.bind(this);
+    }
+    getOccurrences(){
+        axios.get('http://localhost:8080/api/occurrence').then((response) => {
+            console.log('setting occurrences');
+            this.setState({occurrence: response.data});
+        });
     }
     componentDidMount(){
         this.setState({
             localOccurrences: JSON.parse(localStorage.getItem('occurrences'))
         });
-        axios.get('http://localhost:8080/api/occurrence').then((response) => {
-            this.setState({occurrence: response.data});
-        });
+        this.getOccurrences();
     }
     sendOccurrence(occurrence, index){
         let localOccurrences = JSON.parse(localStorage.getItem('occurrences'));
-        delete localOccurrences.splice(index);
+        localOccurrences.splice(index, 1);
         this.setState({localOccurrences});
         localStorage.setItem('occurrences', (localOccurrences.length > 0) ? JSON.stringify(localOccurrences) : null);
-        axios.post('http://localhost:8080/api/occurrence', occurrence);
+        axios.post('http://localhost:8080/api/occurrence', occurrence).then(() => {
+            this.getOccurrences();
+        });
     }
     renderOcurrence(occurrence){
         if(occurrence.length === 0){
@@ -43,7 +50,7 @@ class OccurrenceList extends Component {
                     />
                     <CardMedia>
                         <img
-                            src="https://static.independent.co.uk/s3fs-public/styles/story_large/public/thumbnails/image/2013/01/24/12/v2-cute-cat-picture.jpg"
+                            src={item.imgurl}
                             alt=""/>
                     </CardMedia>
                     <CardText>{item.description}</CardText>
@@ -60,7 +67,6 @@ class OccurrenceList extends Component {
         });
     }
     render() {
-        console.log(this.state.localOccurrences);
         return (
             <div>
                 <p>Ocorrencias não enviadas para o servidor</p>

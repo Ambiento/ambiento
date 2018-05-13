@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Card, CardActions, CardHeader} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
+import { withRouter } from "react-router-dom";
 import {Style} from '../styles';
 import axios from "axios";
 
@@ -10,14 +11,14 @@ class OccurrenceForm extends Component {
         super(props);
         this.state = {
             occurrence: {
-                id: '',
                 city: '',
                 state: '',
                 reference: '',
                 description: '',
-                imgUrl: '',
+                imgurl: 'http://res.cloudinary.com/ambt/image/upload/v1525480427/sample.jpg',
                 latitude: '-21.7057',
-                longitude: '-43.4188'
+                longitude: '-43.4188',
+                user: 1
             }
         };
         this.saveOnLocalStorage = this.saveOnLocalStorage.bind(this);
@@ -42,6 +43,7 @@ class OccurrenceForm extends Component {
         const {occurrence} = this.state;
         (occurrences) ? occurrences.push(occurrence) : occurrences = [occurrence];
         localStorage.setItem('occurrences', JSON.stringify(occurrences));
+        this.props.history.push('/occurrence/');
     }
     handleInputChange(name, value){
         let {occurrence} = this.state;
@@ -94,4 +96,4 @@ class OccurrenceForm extends Component {
     }
 }
 
-export default OccurrenceForm;
+export default withRouter(OccurrenceForm);

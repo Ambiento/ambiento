@@ -4,7 +4,9 @@ import {Link} from 'react-router-dom';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import Style from "../styles/style";
-
+/*
+TODO: Fazer login
+ */
 class Login extends Component {
     constructor(props) {
         super(props);

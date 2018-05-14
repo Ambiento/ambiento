@@ -4,6 +4,7 @@ import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import { withRouter } from "react-router-dom";
 import {Style} from '../styles';
+import {mapsApiKey} from '../config';
 import axios from "axios";
 
 class OccurrenceForm extends Component {
@@ -107,7 +108,7 @@ class OccurrenceForm extends Component {
                     rowsMax={4}/>
                 <CardMedia>
                     <img
-                        src={`https://maps.googleapis.com/maps/api/staticmap?center=${this.state.occurrence.latitude},${this.state.occurrence.longitude}&markers=color:red%7Clabel:YOU%7C${this.state.occurrence.latitude},${this.state.occurrence.longitude}&zoom=14&size=400x300&sensor=false&key=`}
+                        src={`https://maps.googleapis.com/maps/api/staticmap?center=${this.state.occurrence.latitude},${this.state.occurrence.longitude}&markers=color:red%7Clabel:YOU%7C${this.state.occurrence.latitude},${this.state.occurrence.longitude}&zoom=14&size=400x300&sensor=false&key=${mapsApiKey}`}
                         alt=""/>
                 </CardMedia>
                 <CardActions>

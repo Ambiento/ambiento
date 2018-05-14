@@ -15,7 +15,6 @@ class OccurrenceList extends Component {
     }
     getOccurrences(){
         axios.get('http://localhost:8080/api/occurrence').then((response) => {
-            console.log('setting occurrences');
             this.setState({occurrence: response.data});
         });
     }

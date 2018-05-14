@@ -6,6 +6,9 @@
 # dependencies
 /node_modules
 
+# configuration files
+/config
+
 # testing
 /coverage
 

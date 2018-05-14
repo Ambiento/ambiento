@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Card, CardActions, CardHeader} from 'material-ui/Card';
+import {Card, CardActions, CardHeader, CardMedia} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import { withRouter } from "react-router-dom";
@@ -16,8 +16,8 @@ class OccurrenceForm extends Component {
                 reference: '',
                 description: '',
                 imgurl: 'http://res.cloudinary.com/ambt/image/upload/v1525480427/sample.jpg',
-                latitude: '-21.7057',
-                longitude: '-43.4188',
+                latitude: null,
+                longitude: null,
                 user: 1
             }
         };
@@ -28,6 +28,24 @@ class OccurrenceForm extends Component {
         TODO: o parametro /:id deve corresponder ao index da ocorrencia no localStorage
      */
     componentDidMount(){
+        navigator.geolocation.getCurrentPosition((position) => {
+            console.log('Precisão de Mais ou menos ' + position.coords.accuracy + ' metros.');
+            let {occurrence} = this.state;
+            let location = {
+                longitude: position.coords.longitude,
+                latitude: position.coords.latitude
+            };
+            occurrence.latitude = location.latitude;
+            occurrence.longitude = location.longitude;
+            this.setState({occurrence}, console.log(this.state.occurrence));
+        }, (err) => {
+            alert(`Erro ao obter localização geográfica\nCodigo: ${err.code}\nMensagem: ${err.message}`);
+            console.warn(`ERROR(${err.code}): ${err.message}`);
+        }, {
+            maximumAge:600000,
+            timeout:10000,
+            enableHighAccuracy: false
+        });
         // console.log(this.props.match.params.id);
         const id = this.props.match.params.id;
         // if(id !== 'new'){
@@ -87,6 +105,11 @@ class OccurrenceForm extends Component {
                     multiLine={true}
                     rows={1}
                     rowsMax={4}/>
+                <CardMedia>
+                    <img
+                        src={`https://maps.googleapis.com/maps/api/staticmap?center=${this.state.occurrence.latitude},${this.state.occurrence.longitude}&markers=color:red%7Clabel:YOU%7C${this.state.occurrence.latitude},${this.state.occurrence.longitude}&zoom=14&size=400x300&sensor=false&key=`}
+                        alt=""/>
+                </CardMedia>
                 <CardActions>
                     <FlatButton onClick={this.saveOnLocalStorage} label='Salvar'/>
                     <FlatButton label='Cancelar'/>
